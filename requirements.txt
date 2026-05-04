@@ -1,0 +1,21 @@
+# Core
+python-dotenv>=1.0.0
+requests>=2.31.0
+tenacity>=8.2.3          # Retry logic with exponential backoff
+
+# Warehouse
+duckdb>=0.10.0
+
+# dbt
+dbt-core>=1.7.0
+dbt-duckdb>=1.7.0
+
+# Airflow (install separately via Docker — see docker-compose.yml)
+# apache-airflow==2.8.4
+
+# Data handling
+pandas>=2.2.0
+
+# Testing (ingestion layer)
+pytest>=8.0.0
+pytest-mock>=3.12.0
