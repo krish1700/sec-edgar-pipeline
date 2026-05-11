@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: raw_company_facts
+    description: >
+      Raw XBRL company facts loaded directly from SEC EDGAR JSON files.
+      One row per company. The facts_blob column contains all financial
+      metrics nested as: facts > us-gaap > {concept} > units > USD > [...].
+      Append-only — never updated or deleted.
+    columns:
+      - name: cik_raw
+        description: CIK as returned by the API (integer cast to string, not zero-padded).
+        tests:
+          - not_null
+          - unique
+      - name: entity_name
+        description: Company name as returned by the SEC API.
+        tests:
+          - not_null
+      - name: facts_blob
+        description: >
+          Full XBRL facts payload as a JSON blob.
+          Unnested by stg_financials in the Silver layer.
+        tests:
+          - not_null
+      - name: loaded_at
+        description: Timestamp when this row was loaded into DuckDB.
+        tests:
+          - not_null
+
+  - name: raw_submissions
+    description: >
+      Raw company filing submission metadata from the SEC EDGAR submissions endpoint.
+      One row per company. The filings_blob column contains the full historical
+      filing index (form types, dates, accession numbers).
+      Append-only — never updated or deleted.
+    columns:
+      - name: cik_raw
+        description: CIK as returned by the API (not zero-padded).
+        tests:
+          - not_null
+          - unique
+      - name: company_name_raw
+        description: Legal company name from the submissions endpoint.
+        tests:
+          - not_null
+      - name: sic_raw
+        description: 4-digit Standard Industrial Classification code as a string.
+      - name: filings_blob
+        description: >
+          Nested JSON object containing the full historical filing index.
+          Flattened by stg_companies in the Silver layer.
+      - name: loaded_at
+        description: Timestamp when this row was loaded into DuckDB.
+        tests:
+          - not_null

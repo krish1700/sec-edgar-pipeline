@@ -1,0 +1,88 @@
+version: 2
+
+models:
+  - name: stg_financials
+    description: >
+      Clean, deduplicated financial fact rows derived from Bronze XBRL JSON.
+      GAAP synonym tags are mapped to canonical names. Filing amendments are
+      resolved to the latest version. 10-K/10-Q period overlaps are eliminated.
+      CIKs are zero-padded 10-digit strings. One row per
+      (company, canonical_concept, period_end, form_type).
+    columns:
+      - name: cik
+        description: 10-digit zero-padded CIK string.
+        tests:
+          - not_null
+      - name: canonical_concept
+        description: Standardised GAAP concept name mapped from gaap_tag_synonyms.
+        tests:
+          - not_null
+      - name: reported_value
+        description: Financial value in USD as reported to the SEC.
+        tests:
+          - not_null
+      - name: period_end
+        description: End date of the reporting period.
+        tests:
+          - not_null
+      - name: form_type
+        description: SEC form type — 10-K for annual, 10-Q for quarterly.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['10-K', '10-Q', '10-K/A', '10-Q/A', '20-F', '40-F',
+                         '10-K405', '10-KSB', '10-KSB/A', '10-QSB', '10-KT']
+      - name: value_type
+        description: instant for balance sheet items, duration for income statement items.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['instant', 'duration']
+      - name: accession_number
+        description: SEC accession number — unique identifier for the source filing.
+        tests:
+          - not_null
+      - name: filed_date
+        description: Date the filing was submitted to the SEC.
+        tests:
+          - not_null
+
+  - name: stg_companies
+    description: >
+      Standardised company metadata from the SEC submissions feed.
+      One row per CIK. Primary ticker and exchange extracted from JSON arrays.
+    columns:
+      - name: cik
+        description: 10-digit zero-padded CIK string.
+        tests:
+          - not_null
+          - unique
+      - name: company_name
+        description: Legal company name.
+        tests:
+          - not_null
+      - name: sic_code
+        description: 4-digit Standard Industrial Classification code.
+      - name: primary_ticker
+        description: Primary stock ticker symbol.
+
+  - name: stg_filing_periods
+    description: >
+      Filing period coverage summary per company. Identifies gaps where
+      a company has missing quarters between its first and last filing.
+    columns:
+      - name: cik
+        description: 10-digit zero-padded CIK string.
+        tests:
+          - not_null
+          - unique
+      - name: missing_quarters
+        description: Number of expected quarters with no reported data.
+        tests:
+          - not_null
+      - name: has_gaps
+        description: True if the company has any missing quarters.
+        tests:
+          - not_null

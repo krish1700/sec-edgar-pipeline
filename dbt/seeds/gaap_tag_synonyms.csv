@@ -1,0 +1,22 @@
+canonical_tag,synonym_tag,statement_type,display_label
+Revenues,Revenues,IS,Total Revenues
+Revenues,RevenueFromContractWithCustomerExcludingAssessedTax,IS,Total Revenues
+Revenues,SalesRevenueNet,IS,Total Revenues
+Revenues,SalesRevenueGoodsNet,IS,Total Revenues
+Revenues,RevenueFromContractWithCustomerIncludingAssessedTax,IS,Total Revenues
+Revenues,RevenuesNetOfInterestExpense,IS,Total Revenues
+NetIncomeLoss,NetIncomeLoss,IS,Net Income / Loss
+NetIncomeLoss,NetIncome,IS,Net Income / Loss
+NetIncomeLoss,ProfitLoss,IS,Net Income / Loss
+NetIncomeLoss,NetIncomeLossAvailableToCommonStockholdersBasic,IS,Net Income / Loss
+NetIncomeLoss,IncomeLossFromContinuingOperations,IS,Net Income / Loss
+Assets,Assets,BS,Total Assets
+OperatingIncomeLoss,OperatingIncomeLoss,IS,Operating Income / Loss
+OperatingIncomeLoss,IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest,IS,Operating Income / Loss
+EarningsPerShareBasic,EarningsPerShareBasic,IS,Basic EPS
+EarningsPerShareBasic,EarningsPerShareBasicAndDiluted,IS,Basic EPS
+CommonStockSharesOutstanding,CommonStockSharesOutstanding,BS,Shares Outstanding
+Liabilities,Liabilities,BS,Total Liabilities
+StockholdersEquity,StockholdersEquity,BS,Stockholders Equity
+StockholdersEquity,StockholdersEquityAttributableToParent,BS,Stockholders Equity
+CashAndCashEquivalentsAtCarryingValue,CashAndCashEquivalentsAtCarryingValue,BS,Cash and Equivalents

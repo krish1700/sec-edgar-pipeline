@@ -1,0 +1,41 @@
+name: 'sec_edgar'
+version: '1.0.0'
+config-version: 2
+
+profile: 'sec_edgar'
+
+model-paths: ["models"]
+seed-paths:  ["seeds"]
+test-paths:  ["tests"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  sec_edgar:
+    bronze:
+      +materialized: table
+      +schema: bronze
+    silver:
+      +materialized: table
+      +schema: silver
+    gold:
+      +materialized: table
+      +schema: gold
+
+seeds:
+  sec_edgar:
+    +schema: seeds
+
+vars:
+  # Absolute path to the raw data folders — used in Bronze models
+  # Update this to your actual project path
+  raw_facts_path:       "C:/Krish/Project/sec-edgar-pipeline/data/raw/facts/*.json"
+  raw_submissions_path: "C:/Krish/Project/sec-edgar-pipeline/data/raw/submissions/*.json"
+
+  # Anomaly detection thresholds (used in Gold layer)
+  eps_trailing_quarters:  8
+  revenue_qoq_threshold:  0.30
+  asset_qoq_threshold:    0.40
+  restatement_threshold:  0.10

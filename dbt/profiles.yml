@@ -1,0 +1,9 @@
+sec_edgar:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      # Reads DUCKDB_PATH from your .env file.
+      # Falls back to the relative path if the env var is not set.
+      path: "{{ env_var('DUCKDB_PATH', '../warehouse/edgar.duckdb') }}"
+      threads: 4
